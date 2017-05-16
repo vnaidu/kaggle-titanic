@@ -22,4 +22,8 @@ df.name_length = df.name.str.len()
 # `name_length -> 4x bins ==> `name_length_group`
 df.name_length_group = pd.cut(df.name_length, 4, labels=False)
 
+# Add New Feature (deck)
+# `deck` is calculated by extracting the first character of 'cabin' feature.
+# If 'cabin' is null, than `deck` value for that observation is set to '?'.
+df.deck = df.cabin.fillna('?').str.slice(0, 1)
 
