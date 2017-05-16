@@ -27,3 +27,25 @@ df.name_length_group = pd.cut(df.name_length, 4, labels=False)
 # If 'cabin' is null, than `deck` value for that observation is set to '?'.
 df.deck = df.cabin.fillna('?').str.slice(0, 1)
 
+'''
+The resulting feature `title` is obtained by performing the 
+following operations on `name`:
+ (1) splitting ^*(string) on ',' & extracting 1st item
+ (2) splitting ^(1) on '.' & extracting 1st item
+ (3) stripping ^(2) of any leading/trailing whitespace characters
+ (1) mapping ^(3) to title groups using `title_map`(dict)
+'''
+def kv_to_vk(d):
+    return {t: k for k, v in d.items() for t in v}
+
+title_map = kv_to_vk({
+    'Officer': ['Capt', 'Col', 'Major', 'Rev'],
+    'Royalty': ['Sir', 'Lady', 'the Countess',
+                'Dona', 'Jonkheer', 'Don'],
+    'Dr': ['Dr'], 'Master': ['Master'], 'Mr': ['Mr'],
+    'Miss': ['Ms', 'Miss', 'Mlle'], 'Mrs': ['Mrs', 'Mme']})
+df.title = (df.name
+            .str.split(',').str.get(1)
+            .str.split('.').str.get(0)
+            .str.strip()
+            .map(title_map))
