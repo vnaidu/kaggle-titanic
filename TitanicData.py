@@ -1,20 +1,29 @@
 # coding=utf-8
+import DatasetHelper
 
-# Import necessary packages (Pandas, NumPy, etc.)
-import pandas as pd
-import numpy as np
+()
 
-# Set file paths for Titanic data (Source: Kaggle)
-filepath_train = 'Data/train.csv'
-filepath_test = 'Data/test.csv'
 
-# Load train/test datasets as Pandas DataFrames
-df_train = pd.read_csv('Data/train.csv', index_col='PassengerId')
-df_test = pd.read_csv('Data/test.csv', index_col='PassengerId')
+class TitanicData(object):
+    """Summary of class here.
 
-# Assign dataset labels as a new column
-df_train['Dataset'] = 'Train'
-df_test['Dataset'] = 'Test'
+    Longer class information....
 
-# Create a combined DataFrame by merging train/test sets
-df_combined = pd.concat([df_train, df_test], axis=0)
+    Attributes:
+        name: A boolean indicating if we like SPAM or not.
+        dataset: An integer count of the eggs we have laid.
+    """
+
+    def __init__(train_file, test_file, idx_col, target):
+        train_file = 'Data/train.csv'
+        test_file = 'Data/test.csv'
+        idx_col = 'PassengerId'
+        target = 'survived'
+
+        data_manager = DatasetHelper(train_file, test_file, idx_col, target)
+        source_data = load_data(train_file, test_file, idx_col)
+        self.data = create_dataset(source_data, target)
+
+    def GetData(self):
+
+
